@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmos Horizon - Safety & FAQs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* CSS Reset and Variables */
+        :root {
+            --cosmos-dark: #07090b; /* Primary background color */
+            --cosmos-blue: #3d7fff; /* Specific blue for the Book Now button */
+            --primary-blue: #007bff; /* Accent color for underline */
+            --text-light: #fefefe; /* Primary text color (white/off-white) */
+            --text-secondary: #a0a0a0; /* Secondary/paragraph text color */
+            --divider-dark: #2a2a2a; /* Border/divider color */
+            --faq-item-bg: #0f1115; /* Background for the FAQ containers */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--cosmos-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: var(--primary-blue);
+        }
+
+        /* --- Header/Navbar --- */
+        .navbar-safety {
+            position: relative; 
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: var(--cosmos-dark);
+            padding: 20px 100px; 
+            border-bottom: 1px solid var(--divider-dark);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .logo-icon {
+            font-size: 1.25rem;
+            color: var(--text-light); 
+            margin-right: 10px;
+            /* Simple triangle logo using a specific Unicode character or icon class */
+        }
+        
+        .nav-links-safety a {
+            margin-left: 30px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            padding-bottom: 5px;
+        }
+
+        .nav-links-safety a:hover {
+            color: var(--text-light);
+        }
+
+        .nav-links-safety a.active {
+            color: var(--text-light);
+            border-bottom: 2px solid var(--primary-blue);
+        }
+
+        .nav-actions-safety {
+            display: flex;
+            align-items: center;
+        }
+
+        .book-now-safety {
+            background-color: var(--cosmos-blue); 
+            color: var(--text-light);
+            border: none;
+            padding: 10px 25px;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-right: 20px;
+        }
+
+        .nav-icon {
+            font-size: 1.25rem;
+            margin-left: 15px;
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+
+        .nav-icon:hover {
+             color: var(--text-light);
+        }
+
+        /* --- Safety & FAQs Section --- */
+        .safety-faq-section {
+            min-height: calc(100vh - 100px); 
+            padding: 100px 100px 50px;
+            background-color: var(--cosmos-dark);
+        }
+
+        .faq-header {
+            max-width: 800px;
+            margin: 0 auto 60px;
+            text-align: center;
+        }
+
+        .faq-header h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .faq-header p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            border: 1px solid var(--divider-dark);
+            border-radius: 5px;
+            margin-bottom: 10px;
+            overflow: hidden;
+            background-color: var(--faq-item-bg); 
+            transition: background-color 0.3s;
+        }
+        
+        .faq-item:hover {
+             background-color: #12151a; /* Subtle hover effect */
+        }
+
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start; /* Align text to the top for the open state */
+            padding: 20px 30px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.05rem;
+            line-height: 1.4;
+        }
+
+        .faq-question i {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-top: 5px;
+            transition: transform 0.3s, color 0.3s;
+            flex-shrink: 0;
+            margin-left: 20px;
+        }
+
+        .faq-answer {
+            padding: 0 30px;
+            max-height: 0;
+            opacity: 0;
+            transition: max-height 0.4s ease-in-out, opacity 0.4s;
+        }
+
+        .faq-answer p {
+            color: var(--text-secondary);
+            padding-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        /* Open/Active state for FAQ */
+        .faq-item.open {
+            background-color: var(--faq-item-bg);
+            /* Remove the bottom border radius for a continuous look with the content */
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            border-bottom: none; /* Remove bottom border */
+        }
+        
+        .faq-item.open + .faq-item {
+             border-top-left-radius: 0;
+             border-top-right-radius: 0;
+             border-top: none; /* Remove top border of the next item */
+        }
+
+        .faq-item.open .faq-question {
+            /* Keep the padding the same, but the arrow is already set to flex-start */
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 500px; 
+            opacity: 1;
+        }
+        
+        /* Visually flip the icon on open (chevron-up is 180deg from chevron-down) */
+        .faq-item.open .faq-question i {
+            transform: rotate(180deg);
+            color: var(--text-light); /* Make the icon bright when open */
+        }
+
+        /* --- Footer --- */
+        .footer-safety {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 800px;
+            margin: 40px auto 20px;
+            padding: 10px 0;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .footer-links a {
+            margin-left: 20px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-blue);
+        }
+        
+        /* Small screen adjustments */
+        @media (max-width: 900px) {
+            .navbar-safety, .safety-faq-section {
+                padding: 20px 30px;
+            }
+            .navbar-safety {
+                flex-wrap: wrap;
+            }
+            .nav-links-safety {
+                order: 3;
+                width: 100%;
+                margin-top: 15px;
+                text-align: center;
+            }
+            .nav-links-safety a {
+                margin: 0 10px;
+            }
+            .faq-header h2 {
+                font-size: 2.5rem;
+            }
+            .footer-safety {
+                flex-direction: column;
+                text-align: center;
+            }
+            .footer-links {
+                margin-top: 10px;
+            }
+            .footer-links a {
+                margin: 0 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar-safety">
+        <div class="logo">
+            <i class="fas fa-satellite logo-icon"></i>
+            <span class="logo-text">CLEO Horizon</span>
+        </div>
+        <nav class="nav-links-safety">
+         <a href="spc.html" >Home</a>
+         <a href="safety.html" >Safety</a>
+         <a href="#">Roadmap</a>
+         <a href="#">Packages</a>
+         <a href="#" >About</a>
+        
+        </nav>
+        <div class="nav-actions-safety">
+            <button class="book-now-safety">Book Now</button>
+           
+        </div>
+    </header>
+
+    <section class="safety-faq-section">
+        <div class="faq-header">
+            <h2>Safety & FAQs</h2>
+            <p>Your guide to a secure and unforgettable journey to low earth orbit. We've compiled answers to your most pressing questions.</p>
+        </div>
+
+        <div class="faq-container">
+            <div class="faq-item open">
+                <div class="faq-question">
+                    <span>Do I need astronaut training?</span>
+                    <i class="fas fa-chevron-up"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>No, you do not need astronaut training. Our orbital hotel stays are designed for space tourists, not astronauts. We provide comprehensive pre-flight briefings and in-flight support to ensure your safety and comfort. Our experienced crew will guide you through all necessary procedures, making your journey accessible and enjoyable for everyone.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>How safe is space travel?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                     <p>Space travel has an exceptionally high safety record due to rigorous preparation and redundancy systems. Our vehicles utilize the latest aerospace technology, and all crew members are highly trained professionals. Safety is our non-negotiable priority, and we adhere to and exceed global space safety standards.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What about radiation shielding?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                 <div class="faq-answer">
+                    <p>Our habitat is engineered with multi-layer shielding materials designed to mitigate space radiation exposure. The orbital path is strategically chosen to minimize time spent in high-risk zones like the Van Allen belts. Continuous monitoring is performed to ensure guest safety throughout the stay.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What medical training is required?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                 <div class="faq-answer">
+                    <p>Guests undergo a basic medical screening prior to booking to ensure fitness for space travel. No specialized medical training is required. Our onboard medical officer is a fully trained physician equipped to handle emergencies and general health concerns.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Are there safety drills?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                 <div class="faq-answer">
+                    <p>Yes, all guests participate in mandatory, brief safety and emergency procedure briefings before launch and upon arrival at the orbital hotel. These cover crucial information like emergency depressurization and evacuation procedures.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer-safety">
+        <div class="copyright">
+            © 2024 Cosmos Horizon. All rights reserved.
+        </div>
+        <nav class="footer-links">
+        <a href="spc.html">Home</a>
+        <a href="safety.html">Safety</a>
+        <a href="#">Roadmap</a>
+        <a href="#">Packages</a>
+        <a href="#" class="active">About</a>
+        <a href="book.html" class="book-now">Book Now</a>
+        </nav>
+    </footer>
+
+    <script>
+        // JavaScript to handle the FAQ accordion functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.faq-question').forEach(header => {
+                header.addEventListener('click', () => {
+                    const item = header.closest('.faq-item');
+                    const wasOpen = item.classList.contains('open');
+
+                    // Close all other FAQ items
+                    document.querySelectorAll('.faq-item').forEach(otherItem => {
+                        otherItem.classList.remove('open');
+                        // No need to manually adjust the icon here, as the CSS class removal handles it
+                    });
+
+                    // If the clicked item was not already open, open it
+                    if (!wasOpen) {
+                        item.classList.add('open');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
